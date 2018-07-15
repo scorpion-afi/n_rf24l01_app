@@ -1,21 +1,21 @@
 #!/bin/bash
 
-odroid_ip=10.42.0.116
+binary_name=n_rf24l01_test
+sources="main.cpp"
 
-app_name=spidev_test
-app_sources="${app_name}.c init_n_rf24l01.c ../src/n_rf24l01_lib/src/n_rf24l01.c"
+echo "(re)load ${binary_name} binary and it sources..."
 
-echo "reload ${app_name} app and it sources."
+ssh odroid@${ODROID_IP} "mkdir -p ${ODROID_N_RF_DIR}/${binary_name}" 
+scp ${binary_name} odroid@${ODROID_IP}:${ODROID_N_RF_DIR}/${binary_name} 
+scp ${sources} odroid@${ODROID_IP}:${ODROID_N_RF_DIR}/${binary_name} 
 
-echo -n "remove ${app_name} directory..."
-ssh odroid@${odroid_ip} "rm -rf ${app_name}" && echo "ok." || echo "fail." 
+binary_name=util
+sources="util.cpp"
 
-echo -n "create ${app_name} directory..."
-ssh odroid@${odroid_ip} "mkdir ${app_name}" && echo "ok." || echo "fail." 
+echo "(re)load ${binary_name} binary and it sources..."
 
-echo -n "copy ${app_name} to odroid..."
-scp ${app_name} odroid@${odroid_ip}:/home/odroid/${app_name} && echo "ok." || echo "fail." 
+ssh odroid@${ODROID_IP} "mkdir -p ${ODROID_N_RF_DIR}" 
+scp ${binary_name} odroid@${ODROID_IP}:${ODROID_N_RF_DIR}
+scp ${sources} odroid@${ODROID_IP}:${ODROID_N_RF_DIR}
 
-# copy app's sources to use them with gdb
-echo -n "copy ${app_sources} to odroid..."
-scp ${app_sources} odroid@${odroid_ip}:/home/odroid/${app_name} && echo "ok." || echo "fail." 
+echo "ok"
