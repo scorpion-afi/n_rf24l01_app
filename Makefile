@@ -10,7 +10,7 @@ ${target}: ${src_files} Makefile
 	$(CC) ${src_files} $(CCFLAGS) $(INCLUDES) $(LDFLAGS) -o ${target}
 
 util : util.cpp Makefile
-	$(CC) util.cpp $(CCFLAGS) $(INCLUDES) $(LDFLAGS) -o $@
+	$(CC) util.cpp $(CCFLAGS) -D_GLIBCXX_USE_CXX11_ABI=0 $(INCLUDES) $(LDFLAGS) -o $@
 	
 clean: 
 	rm -f ${target} 
